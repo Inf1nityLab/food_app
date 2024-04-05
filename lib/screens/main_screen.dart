@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:food_app/contants/colors.dart';
 
 class MainScreen extends StatefulWidget {
@@ -10,7 +11,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   List<String> names = ['Food', 'Fruits', 'Vegetables', 'Grocery'];
 
   @override
@@ -76,7 +76,9 @@ class _MainScreenState extends State<MainScreen> {
                           color: green,
                           fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     const Text(
                       'Find your food',
                       style: TextStyle(
@@ -84,7 +86,9 @@ class _MainScreenState extends State<MainScreen> {
                           color: black,
                           fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     TextField(
                       decoration: InputDecoration(
                         fillColor: Colors.tealAccent,
@@ -134,10 +138,8 @@ class _MainScreenState extends State<MainScreen> {
                       padding: const EdgeInsets.only(right: 10),
                       child: TextButton(
                         onPressed: () {},
-                        style: TextButton.styleFrom(
-                          shadowColor: white
-                        ),
-                        child:  Text(
+                        style: TextButton.styleFrom(shadowColor: white),
+                        child: Text(
                           names[index],
                           style: const TextStyle(
                               fontSize: 25,
@@ -155,15 +157,111 @@ class _MainScreenState extends State<MainScreen> {
                 maxCrossAxisExtent: 200.0,
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
-                childAspectRatio: 4.0,
+                childAspectRatio: 0.7,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Container(
-                    alignment: Alignment.center,
-                    color: Colors.teal[100 * (index % 9)],
-                    child: Text('Grid Item $index'),
-                  );
+                      alignment: Alignment.center,
+                      color: Colors.white10,
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Stack(children: [
+                            const Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 15),
+                                child: CircleAvatar(
+                                  radius: 65,
+                                  backgroundImage:
+                                      AssetImage('assets/food1.png'),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 5,
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    size: 25,
+                                    color: Colors.red,
+                                  )),
+                            )
+                          ]),
+                          const Text(
+                            'Avacada Salad',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                '20min',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
+                              ),
+                              Expanded(child: Container()),
+                              const Icon(
+                                Icons.star,
+                                color: Colors.orangeAccent,
+                                size: 25,
+                              ),
+                              const Text(
+                                '4.5',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                '15.00 som',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black),
+                              ),
+                              InkWell(
+                                onTap:(){},
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(13),
+                                        bottomRight: Radius.circular(13),
+                                      )),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ));
                 },
                 childCount: 20,
               ),
