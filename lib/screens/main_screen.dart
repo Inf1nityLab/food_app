@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:food_app/contants/colors.dart';
 import 'package:food_app/locator.dart';
 import 'package:food_app/screens/detail_screen.dart';
@@ -16,18 +14,20 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<String> names = ['Food', 'Fruits', 'Vegetables', 'Grocery'];
+  List<String> names = ['food', 'fruit'];
 
   Future<List<Food>>? _food;
+
+  String searchText = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _food = locator<FoodService>().getData();
+    _food = locator<FoodService>().getData('food');
   }
 
-
+  int? value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +110,11 @@ class _MainScreenState extends State<MainScreen> {
                               height: 20,
                             ),
                             TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  searchText = value ;
+                                });
+                              },
                               decoration: InputDecoration(
                                 fillColor: Colors.tealAccent,
                                 filled: true,
@@ -156,16 +161,17 @@ class _MainScreenState extends State<MainScreen> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: TextButton(
-                                onPressed: () {},
-                                style: TextButton.styleFrom(shadowColor: white),
-                                child: Text(
-                                  names[index],
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      color: green,
-                                      fontWeight: FontWeight.w600),
-                                ),
+                              child: ChoiceChip(
+                                label: Text(names[index]),
+                                selected: value == index,
+                                selectedColor: Colors.green,
+
+                                side: BorderSide.none,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    value = selected? index : null;});
+                                  _food = locator<FoodService>().getData(names[index]);
+                                },
                               ),
                             );
                           },
@@ -173,26 +179,29 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     SliverGrid(
-
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200.0,
                         mainAxisSpacing: 10.0,
                         crossAxisSpacing: 10.0,
                         childAspectRatio: 0.7,
                       ),
                       delegate: SliverChildBuilderDelegate(
-
-
-                            (BuildContext context, int index) {
+                        (BuildContext context, int index) {
                           final food = snapshot.data![index];
+                          if (!food.name
+                              .toLowerCase()
+                              .contains(searchText.toLowerCase())) {
+                            return SizedBox(); // При отсутствии совпадений просто пропускайте элемент
+                          }
                           return Container(
                               alignment: Alignment.center,
                               color: Colors.white10,
                               padding: const EdgeInsets.only(left: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Stack(children: [
                                     Align(
@@ -202,7 +211,7 @@ class _MainScreenState extends State<MainScreen> {
                                         child: CircleAvatar(
                                           radius: 65,
                                           backgroundImage:
-                                          NetworkImage('${food.picture}'),
+                                              NetworkImage('${food.picture}'),
                                         ),
                                       ),
                                     ),
@@ -211,22 +220,21 @@ class _MainScreenState extends State<MainScreen> {
                                       right: 5,
                                       child: IconButton(
                                           onPressed: () {
-
                                             setState(() {
                                               food.liked = !food.liked;
-
                                             });
-                                            locator<FoodService>().putData(food.liked, food.id, );
+                                            locator<FoodService>().putData(
+                                              food.liked,
+                                              food.id,
+                                            );
                                           },
-                                          icon: food.liked? const Icon(
-                                            Icons.favorite,
-                                            size: 25,
-                                            color: Colors.red
-                                          ) : const Icon(
-                                              Icons.favorite_border_sharp,
-                                              size: 25,
-                                              color: Colors.grey
-                                          ) ),
+                                          icon: food.liked
+                                              ? const Icon(Icons.favorite,
+                                                  size: 25, color: Colors.red)
+                                              : const Icon(
+                                                  Icons.favorite_border_sharp,
+                                                  size: 25,
+                                                  color: Colors.grey)),
                                     )
                                   ]),
                                   Text(
@@ -265,8 +273,8 @@ class _MainScreenState extends State<MainScreen> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '${food.price} som',
@@ -277,9 +285,13 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (
-                                                  context) =>  DatScreen(food: food,)));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DatScreen(
+                                                        food: food,
+                                                      )));
                                         },
                                         child: Container(
                                           height: 30,
@@ -288,8 +300,8 @@ class _MainScreenState extends State<MainScreen> {
                                               color: Colors.green,
                                               borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(13),
-                                                bottomRight: Radius.circular(
-                                                    13),
+                                                bottomRight:
+                                                    Radius.circular(13),
                                               )),
                                           child: const Center(
                                             child: Icon(
@@ -316,7 +328,6 @@ class _MainScreenState extends State<MainScreen> {
               child: CircularProgressIndicator(),
             );
           },
-        )
-    );
+        ));
   }
 }

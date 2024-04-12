@@ -7,8 +7,8 @@ import 'package:food_app/model/food_model.dart';
 
 class FoodService{
 
-  Future<List<Food>> getData() async{
-    final response = await http.get(Uri.parse('https://65f97f2bdf1514524611cbd0.mockapi.io/api/to_do/food'));
+  Future<List<Food>> getData(String text) async{
+    final response = await http.get(Uri.parse('https://65f97f2bdf1514524611cbd0.mockapi.io/api/to_do/$text'));
 
 
     if (response.statusCode == 200) {
