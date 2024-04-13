@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../contants/colors.dart';
 
 class GlassContainerWidget extends StatelessWidget {
-  final IconData iconData;
+  final Widget icon;
   final double left;
-  const GlassContainerWidget({super.key, required this.iconData, required this.left});
+  const GlassContainerWidget({super.key, required this.icon, required this.left});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,7 @@ class GlassContainerWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               color: Colors.grey.shade200.withOpacity(0.5),
             ),
-            child: Center(
-              child: Icon(iconData, color: white,),
-            ),
+            child: icon,
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/main_screen.dart';
+import 'package:food_app/widgets/elevated_button_widget.dart';
 
 import '../contants/colors.dart';
 
@@ -47,28 +48,16 @@ class OnBoardingScreen extends StatelessWidget {
                   fontSize: 18, fontWeight: FontWeight.w500, color: white),
             ),
             Expanded(child: Container()),
-            SizedBox(
-              width: double.infinity,
-              height: 70,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainScreen()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  child: const Text(
-                    "Let's Explore",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: green),
-                  )),
-            )
+            ElevatedButtonWidget(
+                backColor: white,
+                textColor: green,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MainScreen()));
+                },
+            text: "Let's explore",)
           ],
         ),
       ),

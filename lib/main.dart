@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/contants/colors.dart';
 import 'package:food_app/locator.dart';
 import 'package:food_app/screens/detail_screen.dart';
+import 'package:food_app/screens/navigation.dart';
 import 'package:food_app/screens/on_boarding_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:food_app/widgets/glass_container_widget.dart';
@@ -41,3 +42,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
